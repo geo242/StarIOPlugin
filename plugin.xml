@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<plugin id="fr.sellsy.startio" version="0.0.4" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  
+  <name>StarIOPlugin</name>
+  <description>pluging to use StarIO printer</description>
+  
+  <js-module name="StarIOPlugin" src="www/StarIOPlugin.js">
+    <clobbers target="cordova.plugins.StarIOPlugin" />
+    <clobbers target="plugin.StarIOPlugin" /> 
+  </js-module>
+  
+  <platform name="android">
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="StarIOPlugin">
+        <param name="android-package" value="fr.sellsy.cordova.StarIOPlugin" />
+      </feature>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml" />
+    <source-file src="src/android/StarIOPlugin.java" target-dir="src/fr/sellsy/StarIOPlugin" />
+    
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.BLUETOOTH" />
+    </config-file>
+
+		  <source-file src="src/android/lib/StarIOPort3.1.jar" target-dir="libs" />
+    
+  </platform>
+  
+  <platform name="ios">
+    <config-file parent="/*" target="config.xml">
+      <feature name="StarIOPlugin">
+        <param name="ios-package" value="StarIOPlugin" />
+      </feature>
+    </config-file>
+    <source-file src="src/ios/StarIOPlugin.h" />
+    <source-file src="src/ios/StarIOPlugin.m" />
+    <source-file src="src/ios/StarIOPlugin_JS.h" />
+    <source-file src="src/ios/StarIOPlugin_JS.m" />
+  </platform>
+  
+</plugin>
