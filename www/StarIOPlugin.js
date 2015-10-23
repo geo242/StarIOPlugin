@@ -39,8 +39,8 @@
 if (!window.plugins) {
   window.plugins = {};
 }
-if (!window.plugins.country) {
-  window.plugins.country = new StarIOPlugin();
+if (!window.plugins.startIO) {
+  window.plugins.startIO = new StarIOPlugin();
 }
 
 if (module.exports) {
