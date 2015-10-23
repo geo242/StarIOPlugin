@@ -9,8 +9,8 @@
   </engines>
 
   
-  <js-module src="www/StarIOPlugin.js" name="StarIO">
-    <clobbers target="StarIO" /> 
+  <js-module src="www/StarIOPlugin.js" name="starPrinter">
+    <clobbers target="starPrinter" /> 
   </js-module>
   
   <platform name="android">
