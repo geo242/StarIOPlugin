@@ -4,9 +4,15 @@
   <name>StarIOPlugin</name>
   <description>pluging to use StarIO printer</description>
   
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <asset src="www/StarIOPlugin.js" target="js/StarIOPlugin.js"/>
+  
   <js-module name="StarIOPlugin" src="www/StarIOPlugin.js">
     <clobbers target="cordova.plugins.StarIOPlugin" />
-    <clobbers target="plugin.StarIOPlugin" /> 
+    <clobbers target="StarIOPlugin" /> 
   </js-module>
   
   <platform name="android">
