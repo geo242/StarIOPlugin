@@ -36,4 +36,13 @@
   }
 
 
-  module.exports = new StarIOPlugin();
+if (!window.plugins) {
+  window.plugins = {};
+}
+if (!window.plugins.country) {
+  window.plugins.country = new StarIOPlugin();
+}
+
+if (module.exports) {
+  module.exports = StarIOPlugin;
+}

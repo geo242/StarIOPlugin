@@ -8,28 +8,30 @@
     <engine name="cordova" version=">=3.4.0"/>
   </engines>
 
-  <asset src="www/StarIOPlugin.js" target="js/StarIOPlugin.js"/>
   
-  <js-module name="StarIOPlugin" src="www/StarIOPlugin.js">
-    <clobbers target="cordova.plugins.StarIOPlugin" />
+  <js-module src="www/StarIOPlugin.js" name="StarIOPlugin">
     <clobbers target="StarIOPlugin" /> 
   </js-module>
   
   <platform name="android">
-    <config-file parent="/*" target="res/xml/config.xml">
+    
+    <source-file src="src/android/StarIOPlugin.java" target-dir="src/fr/sellsy/cordova" />
+    <source-file src="src/android/lib/StarIOPort3.1.jar" target-dir="libs" />
+    
+    <config-file target="res/xml/config.xml" parent="/*" >
       <feature name="StarIOPlugin">
         <param name="android-package" value="fr.sellsy.cordova.StarIOPlugin" />
       </feature>
     </config-file>
-    <source-file src="src/android/StarIOPlugin.java" target-dir="src/fr/sellsy/StarIOPlugin" />
     
-    <config-file parent="/*" target="AndroidManifest.xml" />
+    
+    <config-file target="AndroidManifest.xml" parent="/*" />
     
     <config-file target="AndroidManifest.xml" parent="/manifest">
       <uses-permission android:name="android.permission.BLUETOOTH" />
     </config-file>
     
-		  <source-file src="src/android/lib/StarIOPort3.1.jar" target-dir="libs" />
+		  
     
   </platform>
   
