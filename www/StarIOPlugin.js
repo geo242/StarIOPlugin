@@ -36,13 +36,4 @@
   }
 
 
-if (!window.plugins) {
-  window.plugins = {};
-}
-if (!window.plugins.startIO) {
-  window.plugins.startIO = new StarIOPlugin();
-}
-
-if (module.exports) {
-  module.exports = StarIOPlugin;
-}
+module.exports = new StarIOPlugin();
