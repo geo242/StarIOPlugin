@@ -1,6 +1,8 @@
 # StarIOPlugin
+Phonegap plugin for Star Micronics bluetooth printer works with Android and iOS : 
 
-Install with cordova
+
+How to use :
 ```
 cordova plugin add https://github.com/InteractiveObject/StarIOPlugin.git
 ```
