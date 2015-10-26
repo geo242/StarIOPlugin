@@ -49,4 +49,4 @@ window.plugins.starPrinter.printReceipt(name, myReceipt, function(error, result)
 ```
 
 
-
+Demo application : https://github.com/InteractiveObject/StarIOPluginDemo
