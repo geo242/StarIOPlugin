@@ -64,7 +64,7 @@ public class StarIOPlugin extends CordovaPlugin {
         }else {
             String portName = args.getString(0);
             String portSettings = getPortSettingsOption(portName);
-            JSONArray receipt = args.getJSONArray(1);
+            String receipt = args.getString(1);
 
             this.printReceipt(portName, portSettings, receipt, callbackContext);
             return true;
@@ -279,25 +279,77 @@ public class StarIOPlugin extends CordovaPlugin {
     }
 
 
-    private void printReceipt(String portName, String portSettings, JSONArray receipt, CallbackContext callbackContext) throws JSONException {
+    private void printReceipt(String portName, String portSettings, String receipt, CallbackContext callbackContext) throws JSONException {
 
         Context context = this.cordova.getActivity();
 
+
         ArrayList<byte[]> list = new ArrayList<byte[]>();
         list.add(new byte[] { 0x1b, 0x1d, 0x74, (byte)0x80 });
-
-
-        int len = receipt.length();
+        /*int len = receipt.length();
         for (int i=0;i<len;i++){
+            String msg = receipt.getString(i);
 
-            JSONObject msg = receipt.getJSONObject(i);
-            String msgType = msg.getString("type");
+        }*/
+
+        list.add(createCpUTF8(receipt));
+
+        /*
+        ArrayList<byte[]> list = new ArrayList<byte[]>();
+        list.add(new byte[] { 0x1b, 0x1d, 0x74, (byte)0x80 }); // Code Page UTF-8
 
 
-        }
+        list.add(new byte[] { 0x1b, 0x1d, 0x61, 0x01 }); // Alignment (center)
+
+        // list.add("[If loaded.. Logo1 goes here]\r\n".getBytes());
+        // list.add(new byte[]{0x1b, 0x1c, 0x70, 0x01, 0x00, '\r', '\n'}); //Stored Logo Printing
+        // Notice that we use a unicode representation because that is
+        // how Java expresses these bytes as double byte unicode
+
+        // Character expansion
+        list.add(new byte[] { 0x06, 0x09, 0x1b, 0x69, 0x01, 0x01 });
+        list.add(createCpUTF8("\nORANGE\r\n"));
+        list.add(new byte[] { 0x1b, 0x69, 0x00, 0x00 }); // Cancel Character Expansion
+        list.add(createCpUTF8("36 AVENUE LA MOTTE PICQUET\r\n\r\n"));
 
 
-        sendCommand(context, portName, "", list);
+        list.add(new byte[] { 0x1b, 0x44, 0x02, 0x06, 0x0a, 0x10, 0x14, 0x1a, 0x22, 0x00 }); // Set horizontal tab
+        list.add(createCpUTF8("------------------------------------------------\r\n"));
+        list.add(createCpUTF8("Date: MM/DD/YYYY    Heure: HH:MM\r\n"));
+        list.add(createCpUTF8("Boutique: OLUA23    Caisse: 0001\r\n"));
+        list.add(createCpUTF8("Conseiller: 002970  Ticket: 3881\r\n"));
+        list.add(createCpUTF8("------------------------------------------------\r\n\r\n"));
+
+        list.add(new byte[] { 0x1b, 0x1d, 0x61, 0x00 }); // Alignment
+        list.add(createCpUTF8("Vous avez été servi par : Souad\r\n\r\n"));
+        list.add(createCpUTF8("CAC IPHONE ORANGE\r\n"));
+        list.add(createCpUTF8("3700615033581 \t1\t X\t 19.99€\t  19.99€\r\n\r\n"));
+        list.add(createCpUTF8("dont contribution environnementale :\r\n"));
+        list.add(createCpUTF8("CAC IPHONE ORANGE\t\t  0.01€\r\n"));
+        list.add(createCpUTF8("------------------------------------------------\r\n"));
+        list.add(createCpUTF8("1 Piéce(s) Total :\t\t\t  19.99€\r\n"));
+        list.add(createCpUTF8("Mastercard Visa  :\t\t\t  19.99€\r\n\r\n"));
+
+
+        list.add(new byte[] { 0x1b, 0x1d, 0x61, 0x01 }); // Alignment (center)
+        list.add(createCpUTF8("Taux TVA    Montant H.T.   T.V.A\r\n"));
+        list.add(createCpUTF8("  20%          16.66€      3.33€\r\n"));
+        list.add(createCpUTF8("Merci de votre visite et. à bientôt.\r\n"));
+        list.add(createCpUTF8("Conservez votre ticket il\r\n"));
+        list.add(createCpUTF8("vous sera demandé pour tout échange.\r\n"));
+
+        // 1D barcode example
+        //list.add(new byte[] { 0x1b, 0x1d, 0x61, 0x01 });
+        //list.add(new byte[] { 0x1b, 0x62, 0x06, 0x02, 0x02 });
+        //list.add(createCpUTF8(" 12ab34cd56\u001e\r\n"));
+
+
+        */
+
+        list.add(new byte[] { 0x1b, 0x64, 0x02 }); // Cut
+        list.add(new byte[]{0x07}); // Kick cash drawer
+
+        sendCommand(context, portName, portSettings, list);
     }
 
     private void sendCommand(Context context, String portName, String portSettings, ArrayList<byte[]> byteList) {
