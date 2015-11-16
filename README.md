@@ -12,7 +12,7 @@ cordova plugin add https://github.com/InteractiveObject/StarIOPlugin.git
 
 ### Printer discovery
 ```
-window.plugins.starPrinter.portDiscovery(function(error, printerList){
+window.plugins.starPrinter.portDiscovery('All', function(error, printerList){
   if (error) {
     console.error(error);
   } else {
@@ -21,7 +21,7 @@ window.plugins.starPrinter.portDiscovery(function(error, printerList){
   }
 });
 ```
-
+Port types are: 'All', 'Bluetooth', 'USB'
 
 ### Printer status
 ```
