@@ -31,6 +31,8 @@
 #import "StarIOPlugin.h"
 #import "StarIOPlugin_JS.h"
 
+#import <StarIO/SMPort.h>
+
 @implementation StarIOPlugin
 
 /*
@@ -95,7 +97,7 @@
 		NSString *jsString = kCDVPluginINIT;
 		[mvcCDVPlugin.webView stringByEvaluatingJavaScriptFromString:jsString];
 		result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Success! const kCDVPluginINIT was evaluated by webview!"];
-		[self writeJavascript:[result toSuccessCallbackString:callbackId]];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 	} else {NSLog(@"[command.arguments objectAtIndex:0] = %@", [command.arguments objectAtIndex:0]); }
 }
 
@@ -122,7 +124,7 @@
 		NSString *jsString = kCDVPluginALERT;
 		[mvcCDVPlugin.webView stringByEvaluatingJavaScriptFromString:jsString];
 		result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Success! const kCDVPluginALERT was evaluated by webview and created alert!"];
-		[self writeJavascript:[result toSuccessCallbackString:callbackId]];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 	} else {NSLog(@"[command.arguments objectAtIndex:0] = %@", [command.arguments objectAtIndex:0]); }
 }
 
@@ -140,7 +142,6 @@
 
 	[self.commandDelegate runInBackground:^{NSLog(@"BackGround Thread sample code!"); }];
 
-	NSString	*callbackId		= [command.arguments objectAtIndex:0];
 	NSString	*objectAtIndex0 = [command.arguments objectAtIndex:0];
 
 	CDVViewController	*mvcCDVPlugin = (CDVViewController *)[super viewController];
@@ -150,8 +151,58 @@
 		NSString *jsString = kCDVPluginFUNCTION;
 		[mvcCDVPlugin.webView stringByEvaluatingJavaScriptFromString:jsString];
 		result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Success! const kCDVPluginFUNCTION was evaluated by webview!"];
-		[self writeJavascript:[result toSuccessCallbackString:callbackId]];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 	} else {NSLog(@"[command.arguments objectAtIndex:0] = %@", [command.arguments objectAtIndex:0]); }
+}
+
+- (NSMutableDictionary*)portInfoToDictionary:(PortInfo *)portInfo {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[portInfo portName] forKey:@"portName"];
+    [dict setObject:[portInfo macAddress] forKey:@"macAddress"];
+    [dict setObject:[portInfo modelName] forKey:@"modelName"];
+    [dict setObject:[portInfo isConnected] ? @"true" : @"false" forKey:@"isConnected"];
+    return dict;
+}
+
+- (void)portDiscovery:(CDVInvokedUrlCommand *)command {
+    NSLog(@"Finding ports");
+    
+	NSString *portType = @"All";
+    
+    if (command.arguments.count > 0) {
+        portType = [command.arguments objectAtIndex:0];
+    }
+    
+    NSMutableArray *info = [[NSMutableArray alloc] init];
+    
+    if ([portType isEqualToString:@"All"] || [portType isEqualToString:@"Bluetooth"]) {
+        NSArray *btPortInfoArray = [SMPort searchPrinter:@"BT:"];
+        for (PortInfo *p in btPortInfoArray) {
+            [info addObject:[self portInfoToDictionary:p]];
+        }
+    }
+    
+    if ([portType isEqualToString:@"All"] || [portType isEqualToString:@"LAN"]) {
+        NSArray *lanPortInfoArray = [SMPort searchPrinter:@"LAN:"];
+        for (PortInfo *p in lanPortInfoArray) {
+//            [info addObject:(PortInfo *)p];
+               [info addObject:[self portInfoToDictionary:p]];
+        }
+    }
+    
+    if ([portType isEqualToString:@"All"] || [portType isEqualToString:@"USB"]) {
+        NSArray *usbPortInfoArray = [SMPort searchPrinter:@"USB:"];
+        for (PortInfo *p in usbPortInfoArray) {
+//            [info addObject:(PortInfo *)p];
+               [info addObject:[self portInfoToDictionary:p]];
+        }
+    }
+    
+    
+    CDVPluginResult	*result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:info];
+ 
+    NSLog(@"Sending ports result");
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)handleOpenURL:(NSNotification *)notification
