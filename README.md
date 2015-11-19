@@ -11,7 +11,7 @@ How to use :
 ## API
 
 ### Printer discovery
-`
+```
 window.plugins.starPrinter.portDiscovery('All', function(error, printerList){
   if (error) {
     console.error(error);
@@ -20,11 +20,11 @@ window.plugins.starPrinter.portDiscovery('All', function(error, printerList){
     console.log(printerList[0].macAddress);
   }
 });
-`
+```
 Port types are: 'All', 'Bluetooth', 'USB', 'LAN'
 
 ### Printer status
-`
+```
 window.plugins.starPrinter.checkStatus(portName, function(error, result){
   if (error) {
     console.error(error);
@@ -32,10 +32,10 @@ window.plugins.starPrinter.checkStatus(portName, function(error, result){
     console.log(result.offline ? "printer is offline : "printer is online);
   }
 });
-`
+```
 
 ### Print receipt
-`
+```
 var myReceipt = "Title \n\n -- Price\r\r\r 20$\n\n ---\n";
 window.plugins.starPrinter.printReceipt(portName, myReceipt, function(error, result){
   if (error) {
@@ -44,10 +44,10 @@ window.plugins.starPrinter.printReceipt(portName, myReceipt, function(error, res
     console.log("printReceipt finished");
   }
 });
-`
+```
 
 ### Connect and listen for hardware events (mPOP on iOS only)
-`
+```
 window.plugins.starPrinter.connect(portName, function(error, result){
   if (error) {
     console.error(error);
@@ -85,10 +85,10 @@ window.addEventListener('starIOPluginData', function (e) {
       break;
   }
 });
-`
+```
 
 ### Open cash drawer (mPOP on iOS only)
-`
+```
 window.plugins.starPrinter.openCashDrawer(name, function(error, result){
   if (error) {
     console.error(error);
@@ -96,6 +96,6 @@ window.plugins.starPrinter.openCashDrawer(name, function(error, result){
     console.log("openCashDrawer finished");
   }
 });
-`
+```
 
 [Demo application](https://github.com/InteractiveObject/StarIOPluginDemo)
