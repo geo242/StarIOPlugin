@@ -36,11 +36,16 @@
 #import <Foundation/Foundation.h>
 
 #import <Cordova/CDVPlugin.h>
+#import <StarIO/SMPort.h>
+#import <StarIO_Extension/StarIoExtManager.h>
 
-@interface StarIOPlugin : CDVPlugin {}
+@interface StarIOPlugin : CDVPlugin <StarIoExtManagerDelegate> {}
+
+@property (nonatomic) StarIoExtManager *starIoExtManager;
 
 - (void)init:(CDVInvokedUrlCommand *)command;
-- (void)nativeFunctionWithAlert:(CDVInvokedUrlCommand *)command;
-- (void)nativeFunction:(CDVInvokedUrlCommand *)command;
-
+- (void)portDiscovery:(CDVInvokedUrlCommand *)command;
+- (void)checkStatus:(CDVInvokedUrlCommand *)command;
+- (void)connect:(CDVInvokedUrlCommand *)command;
+- (void)printReceipt:(CDVInvokedUrlCommand *)command;
 @end
