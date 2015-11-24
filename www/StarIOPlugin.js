@@ -1,12 +1,6 @@
 
   function StarIOPlugin() {}
 
-
-  /*
-  SellsyStarIO.prototype.checkStatus = function (success, fail, object) {
-    cordova.exec(success, fail, 'SellsyStarIO', 'checkStatus', [object]);
-  }*/
-
   StarIOPlugin.prototype.checkStatus = function (port, callback) {
       cordova.exec(function(result) {
                     callback(null, result)
@@ -15,7 +9,6 @@
                     callback(error)
                    }, 'StarIOPlugin', 'checkStatus', [port]);
   }
-
 
   StarIOPlugin.prototype.portDiscovery = function (type, callback) {
       cordova.exec(function(result) {
@@ -34,6 +27,5 @@
                     callback(error)
                    }, 'StarIOPlugin', 'printReceipt', [port, receipt]);
   }
-
 
 module.exports = new StarIOPlugin();

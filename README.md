@@ -1,6 +1,8 @@
 # StarIOPlugin
+Phonegap plugin for Star Micronics bluetooth printer works with Android and iOS : 
 
-Install with cordova
+
+How to use :
 ```
 cordova plugin add https://github.com/InteractiveObject/StarIOPlugin.git
 ```
@@ -8,30 +10,43 @@ cordova plugin add https://github.com/InteractiveObject/StarIOPlugin.git
 
 ## API
 
-Printer discovery
+### Printer discovery
 ```
-window.starPrinter.portDiscovery(function(printerList){
-  console.log(printerList[0].name);
-  console.log(printerList[0].port);
+window.plugins.starPrinter.portDiscovery(function(error, printerList){
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(printerList[0].name);
+    console.log(printerList[0].macAddress);
+  }
 });
 ```
 
 
-Printer status
+### Printer status
 ```
-window.starPrinter.checkStatus(port, function(result){
-  console.log(result ? "printer is online : "printer is offline);
+window.plugins.starPrinter.checkStatus(name, function(error, result){
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(result.offline ? "printer is offline : "printer is online);
+  }
 });
 ```
 
 
-Print receipt
+### Print receipt
 ```
 var myReceipt = "Title \n\n -- Price\r\r\r 20$\n\n ---\n";
-window.starPrinter.printReceipt(port, myReceipt, function(result){
-  console.log(result ? "printer is online : "printer is offline);
+window.plugins.starPrinter.printReceipt(name, myReceipt, function(error, result){
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("printReceipt finished");
+  }
+  
 });
 ```
 
 
-
+Demo application : https://github.com/InteractiveObject/StarIOPluginDemo
