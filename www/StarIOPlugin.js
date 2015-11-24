@@ -17,13 +17,13 @@
   }
 
 
-  StarIOPlugin.prototype.portDiscovery = function (callback) {
+  StarIOPlugin.prototype.portDiscovery = function (type, callback) {
       cordova.exec(function(result) {
                     callback(null, result)
                    },
                    function(error) {
                     callback(error)
-                   }, 'StarIOPlugin', 'portDiscovery', []);
+                   }, 'StarIOPlugin', 'portDiscovery', [type]);
   }
 
   StarIOPlugin.prototype.printReceipt = function (port, receipt, callback) {
