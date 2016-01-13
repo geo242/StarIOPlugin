@@ -46,6 +46,8 @@
     <source-file src="src/ios/StarIOPlugin.m" />
     <source-file src="src/ios/StarIOPlugin_JS.h" />
     <source-file src="src/ios/StarIOPlugin_JS.m" />
+    <source-file src="src/ios/StarIOPlugin_Communication.h" />
+    <source-file src="src/ios/StarIOPlugin_Communication.m" />
   </platform>
   
 </plugin>
