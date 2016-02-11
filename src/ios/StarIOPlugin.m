@@ -26,7 +26,6 @@
 
 #import <Cordova/CDVAvailability.h>
 #import <Cordova/CDVViewController.h>
-#import <Cordova/CDVDebug.h>
 
 #import "StarIOPlugin.h"
 #import "StarIOPlugin_JS.h"
@@ -78,12 +77,14 @@ static NSString *dataCallbackId = nil;
 	CDVPluginResult		*result;
 
 	// [self.commandDelegate runInBackground:^{NSLog(@"BackGround Thread sample code!");}];
-    
+
     _starIoExtManager = nil;
 
 	if ([objectAtIndex0 isEqualToString:@"success"]) {
 		NSString *jsString = kCDVPluginINIT;
-		[mvcCDVPlugin.webView stringByEvaluatingJavaScriptFromString:jsString];
+        [mvcCDVPlugin.webViewEngine evaluateJavaScript:jsString completionHandler:^(id id, NSError * error) {
+            NSLog(@"Initialized StarIOPlugin and notified webViewEngine");
+        }];
 		result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Success! const kCDVPluginINIT was evaluated by webview!"];
         [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 	} else {NSLog(@"[command.arguments objectAtIndex:0] = %@", [command.arguments objectAtIndex:0]); }
